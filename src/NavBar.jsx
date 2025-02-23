@@ -1,10 +1,27 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 function NavBar() {
-    const isLoggued = false
+
+    const [logueado, setLogueado] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!localStorage.getItem("access_token")) {
+            setLogueado(false);
+        } else {
+            setLogueado(true);
+        }
+    });
+
+    function cerrarSesion() {
+        localStorage.removeItem('access_token');
+        setLogueado(false);
+        navigate('/');
+    }
 
     return (
         <nav className="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
@@ -16,7 +33,7 @@ function NavBar() {
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
-                        {!isLoggued &&
+                        {!logueado &&
                             (
                                 <>
                                     <li className="nav-item">
@@ -33,6 +50,14 @@ function NavBar() {
                                 </>
                             )
                         }
+
+                        {logueado && <li className="nav-item">
+                            <button className='btn btn-outline-light btn-md' onClick={cerrarSesion}>
+                                Cerrar Sesión
+                            </button>
+                        </li>}
+
+
                     </ul>
                 </div>
             </div>

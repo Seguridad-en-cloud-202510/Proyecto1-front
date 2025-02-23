@@ -1,8 +1,3 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { useState } from 'react'
-import Hero from './Hero.jsx'
-
 import { Route, Routes } from 'react-router-dom'
 import LandingPage from './LandingPage.jsx'
 import NavBar from './NavBar.jsx'
@@ -12,10 +7,6 @@ import BlogDetail from './BlogDetail.jsx'
 import NewBlog from './NewBlog.jsx'
 
 function App() {
-
-    const isLoggued = false
-
-    console.log("Estoy mostrando App")
 
   return (
     <div>
@@ -31,7 +22,6 @@ function App() {
         </Routes>
       </div>
 
-      {/* {isLoggued ? <LandingPage /> : <h1>Debes iniciar sesión para ver esta página</h1>} */}
     </div>
   )
 }
