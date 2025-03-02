@@ -12,6 +12,8 @@ import {
 } from "react-bootstrap"; // Importa componentes de react-bootstrap para crear la interfaz de usuario
 import { useNavigate } from "react-router-dom"; // Importa el hook useNavigate para redireccionar al usuario
 
+const HOST = "34.16.98.228";
+
 // Función para decodificar un token JWT y extraer su payload
 const decodeToken = (token) => {
   try {
@@ -70,7 +72,7 @@ const Login = () => {
     e.preventDefault(); // Previene el comportamiento por defecto del formulario
     try {
       const response = await axios.post(
-        "http://localhost:8000/usuarios/login/", // URL del endpoint de login
+        "http://"+HOST+":8000/usuarios/login/", // URL del endpoint de login
         {
           email: formData.loginEmail, // Se envía el correo electrónico del formulario de login
           contrasenia: formData.loginPassword, // Se envía la contraseña del formulario de login
@@ -96,7 +98,7 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:8000/usuarios/", {
+      const response = await axios.post("http://"+HOST+":8000/usuarios/", {
         nombre: formData.registerName, // Se envía el nombre ingresado para el registro
         email: formData.registerEmail, // Se envía el correo electrónico para el registro
         contrasenia: formData.registerPassword, // Se envía la contraseña para el registro

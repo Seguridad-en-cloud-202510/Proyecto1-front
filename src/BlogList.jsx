@@ -14,6 +14,8 @@ import {
 import { useNavigate } from "react-router-dom"; // Importa el hook useNavigate para redireccionar programáticamente al usuario  
 import axios from "axios"; // Importa axios para realizar peticiones HTTP al backend
 
+const HOST = "34.16.98.228";
+
 // Función para decodificar el token JWT y extraer su payload  
 const decodeToken = (token) => {  
   try {  
@@ -63,7 +65,7 @@ const BlogCard = ({
   useEffect(() => {  
     const fetchAutor = async () => {  
       try {  
-        const response = await axios.get(`http://localhost:8000/usuarios/${autor_id}/`);  
+        const response = await axios.get(`http://`+HOST+`:8000/usuarios/${autor_id}/`);  
         setAutor(response.data.nombre); // Actualiza el estado con el nombre del autor obtenido  
       } catch (error) {  
         console.error("Error al obtener el autor:", error);  
@@ -76,7 +78,7 @@ const BlogCard = ({
   useEffect(() => {  
     const fetchCalificacion = async () => {  
       try {  
-        const response = await axios.get(`http://localhost:8000/calificaciones/${id}`);  
+        const response = await axios.get(`http://`+HOST+`:8000/calificaciones/${id}`);  
         const promedio = response.data.promedio;  
         setCalificacionPromedio(Math.round(promedio * 10) / 10); // Redondea la calificación a un decimal  
       } catch (error) {  
@@ -105,7 +107,7 @@ const BlogCard = ({
   // Función para eliminar la publicación mediante una petición DELETE  
   const handleDelete = async () => {  
     try {  
-      await axios.delete(`http://localhost:8000/publicaciones/${id}/`, {  
+      await axios.delete(`http://`+HOST+`:8000/publicaciones/${id}/`, {  
         headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },  
       });  
       console.log("Publicación eliminada correctamente");  
@@ -119,7 +121,7 @@ const BlogCard = ({
   // Función para iniciar el proceso de edición del blog  
   const handleEdit = async () => {  
     try {  
-      const response = await axios.get(`http://localhost:8000/publicaciones/${id}/`, {  
+      const response = await axios.get(`http://`+HOST+`:8000/publicaciones/${id}/`, {  
         headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },  
       });  
       const blog = response.data;  
@@ -144,7 +146,7 @@ const BlogCard = ({
   const handleTogglePublish = async () => {  
     try {  
       await axios.put(  
-        `http://localhost:8000/publicaciones/${id}`,  
+        `http://`+HOST+`:8000/publicaciones/${id}`,  
         { publicado: !isPublished },  
         { headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` } }  
       );  
@@ -279,7 +281,7 @@ const BlogList = () => {
   useEffect(() => {  
     if (currentUserId) {  
       axios  
-        .get(`http://localhost:8000/usuarios/${currentUserId}/`)  
+        .get(`http://`+HOST+`:8000/usuarios/${currentUserId}/`)  
         .then((response) => {  
           setUserName(response.data.nombre); // Actualiza el estado con el nombre del usuario  
         })  
@@ -293,7 +295,7 @@ const BlogList = () => {
   useEffect(() => {  
     const offset = pagina * limit; // Calcula el offset basándose en la página actual  
     axios  
-      .get(`http://localhost:8000/publicaciones/?pagina=${offset}&limite=${limit}`)  
+      .get(`http://`+HOST+`:8000/publicaciones/?pagina=${offset}&limite=${limit}`)  
       .then((response) => {  
         setPublicaciones(response.data.publicaciones); // Actualiza el estado con las publicaciones obtenidas  
         setTotalPublicaciones(response.data.total); // Actualiza el estado con el total de publicaciones  

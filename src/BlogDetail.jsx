@@ -10,6 +10,8 @@ import {
 } from "react-bootstrap"; // Se importan componentes de react-bootstrap para la estructura y estilo visual de la tarjeta
 import axios from "axios"; // Se importa axios para realizar peticiones HTTP
 
+const HOST = "34.16.98.228";
+
 // Función para decodificar el token JWT
 const decodeToken = (token) => {
   try {
@@ -94,7 +96,7 @@ const BlogDetail = () => {
   // Obtener datos del blog según ID
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/publicaciones/${id}/`) // Se hace una petición GET para obtener la información del blog
+      .get(`http://`+HOST+`:8000/publicaciones/${id}/`) // Se hace una petición GET para obtener la información del blog
       .then((response) => {
         const data = response.data; // Se extraen los datos de la respuesta
         setDate(data.fecha_publicacion); // Se actualiza el estado de la fecha de publicación
@@ -113,7 +115,7 @@ const BlogDetail = () => {
   // Obtener la calificación promedio
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/calificaciones/${id}`) // Se realiza una petición GET para obtener la calificación promedio
+      .get(`http://`+HOST+`:8000/calificaciones/${id}`) // Se realiza una petición GET para obtener la calificación promedio
       .then((response) => {
         const promedio = response.data.promedio; // Se extrae el promedio del response
         // Se redondea el promedio a un decimal
@@ -129,7 +131,7 @@ const BlogDetail = () => {
   useEffect(() => {
     if (autorId) {
       axios
-        .get(`http://localhost:8000/usuarios/${autorId}/`) // Se hace una petición GET para obtener la información del autor usando el ID
+        .get(`http://`+HOST+`:8000/usuarios/${autorId}/`) // Se hace una petición GET para obtener la información del autor usando el ID
         .then((response) => {
           setAutor(response.data.nombre); // Se actualiza el estado del nombre del autor con la respuesta
         })
@@ -153,7 +155,7 @@ const BlogDetail = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/calificaciones/", // Se envía la calificación haciendo una petición POST
+        "http://"+HOST+":8000/calificaciones/", // Se envía la calificación haciendo una petición POST
         payload,
         {
           headers: {
@@ -166,7 +168,7 @@ const BlogDetail = () => {
       setIsRated(true); // Se actualiza el estado para indicar que ya se envió la calificación
       // Actualizar la calificación promedio tras enviar la nueva calificación
       const { data } = await axios.get(
-        `http://localhost:8000/calificaciones/${id}` // Se vuelve a obtener la calificación promedio actualizada
+        `http://`+HOST+`:8000/calificaciones/${id}` // Se vuelve a obtener la calificación promedio actualizada
       );
       setCalificacion(data.promedio); // Se actualiza el estado con el nuevo promedio
     } catch (error) {
