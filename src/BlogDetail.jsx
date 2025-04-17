@@ -161,7 +161,7 @@ const BlogDetail = () => {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Se pasa el token de autenticación en los headers
             "Content-Type": "application/json", // Se especifica el tipo de contenido
           },
-        }
+        }, {withCredentials: true} // Configuración para permitir credenciales en la petición
       );
       console.log("Calificación enviada correctamente:", response.data); // Se muestra en consola la respuesta exitosa
       setIsRated(true); // Se actualiza el estado para indicar que ya se envió la calificación
