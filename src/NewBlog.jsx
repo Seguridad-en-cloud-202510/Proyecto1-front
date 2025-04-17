@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css'; // Importa los estilos del tema 'snow'
 import { useNavigate, useLocation } from 'react-router-dom'; // Importa hooks de react-router-dom para la navegación y el manejo de la ubicación
 import axios from 'axios'; // Importa axios para hacer peticiones HTTP
 import DOMPurify from 'dompurify'; // Importa DOMPurify para limpiar contenido HTML y prevenir ataques XSS
+import { HOST } from "./HostConstant";
 
 // Función para decodificar un token JWT y extraer su payload
 const decodeToken = (token) => {
@@ -90,7 +91,7 @@ const NewBlog = ({
 
   // Efecto para obtener todas las etiquetas disponibles desde el backend
   useEffect(() => {
-    axios.get('http://localhost:8000/etiquetas')
+    axios.get('http://'+HOST+':8000/etiquetas')
       .then((response) => {
         setAllTags(response.data); // Guarda la respuesta en el estado allTags
       })
@@ -203,7 +204,7 @@ const NewBlog = ({
       const sanitizedContent = DOMPurify.sanitize(content); // Limpia el contenido HTML para prevenir XSS
       
       if (!combinedEditarBlog) { // Si no se está editando, se crea una nueva entrada
-        const response = await axios.post('http://localhost:8000/publicaciones/', {
+        const response = await axios.post('http://'+HOST+':8000/publicaciones/', {
           id_usuario: user_id,
           titulo: title,
           contenido: sanitizedContent,
@@ -215,7 +216,7 @@ const NewBlog = ({
           headers: { 'Authorization': `Bearer ${token}` } // Se envía el token en los headers
         });
       } else { // Si se está editando, se actualiza la entrada existente
-        const response = await axios.put(`http://localhost:8000/publicaciones/${combinedIdEditar}/`, {
+        const response = await axios.put(`http://`+HOST+`:8000/publicaciones/${combinedIdEditar}/`, {
           titulo: title,
           contenido: sanitizedContent,
           portada: base64Image,
@@ -241,7 +242,7 @@ const NewBlog = ({
       const sanitizedContent = DOMPurify.sanitize(content); // Limpia el contenido HTML
        
       if (!combinedEditarBlog) { // Si se está creando una nueva entrada
-        const response = await axios.post('http://localhost:8000/publicaciones/', {
+        const response = await axios.post('http://'+HOST+':8000/publicaciones/', {
           id_usuario: user_id,
           titulo: title,
           contenido: sanitizedContent,
@@ -254,7 +255,7 @@ const NewBlog = ({
         });
       } else { // Si se está editando, se invierte el estado de publicación
         const nuevoEstado = !combinedPublicadoEditar;
-        const response = await axios.put(`http://localhost:8000/publicaciones/${combinedIdEditar}/`, {
+        const response = await axios.put(`http://`+HOST+`:8000/publicaciones/${combinedIdEditar}/`, {
           titulo: title,
           contenido: sanitizedContent,
           portada: base64Image,
