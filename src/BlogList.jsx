@@ -105,7 +105,8 @@ const BlogCard = ({
   // Función para eliminar la publicación mediante una petición DELETE  
   const handleDelete = async () => {  
     try {  
-      await axios.delete(`http://localhost:8000/publicaciones/${id}/`, {  
+      await axios.delete(`http://localhost:8000/publicaciones/${id}/`, 
+        {withCredentials: true}, {
         headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },  
       });  
       console.log("Publicación eliminada correctamente");  
@@ -119,7 +120,8 @@ const BlogCard = ({
   // Función para iniciar el proceso de edición del blog  
   const handleEdit = async () => {  
     try {  
-      const response = await axios.get(`http://localhost:8000/publicaciones/${id}/`, {  
+      const response = await axios.get(`http://localhost:8000/publicaciones/${id}/`,
+        {withCredentials: true}, {
         headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },  
       });  
       const blog = response.data;  
@@ -145,6 +147,7 @@ const BlogCard = ({
     try {  
       await axios.put(  
         `http://localhost:8000/publicaciones/${id}`,  
+        {withCredentials: true},
         { publicado: !isPublished },  
         { headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` } }  
       );  

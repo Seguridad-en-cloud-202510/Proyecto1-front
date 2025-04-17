@@ -74,7 +74,7 @@ const Login = () => {
         {
           email: formData.loginEmail, // Se envía el correo electrónico del formulario de login
           contrasenia: formData.loginPassword, // Se envía la contraseña del formulario de login
-        }
+        }, {withCredentials: true} // Configuración para permitir credenciales en la petición
       );
       if (response.data.access_token) { // Verifica si se recibió un token en la respuesta
         console.log("Token recibido:"); // Registra en consola la recepción del token

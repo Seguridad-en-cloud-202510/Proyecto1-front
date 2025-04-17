@@ -201,7 +201,7 @@ const NewBlog = ({
       const user_id = getUserId(); // Obtiene el ID del usuario
       const base64Image = imagePreview ? await getImageBase64() : null; // Obtiene la imagen en base64 si existe
       const sanitizedContent = DOMPurify.sanitize(content); // Limpia el contenido HTML para prevenir XSS
-      
+  
       if (!combinedEditarBlog) { // Si no se está editando, se crea una nueva entrada
         const response = await axios.post('http://localhost:8000/publicaciones/', {
           id_usuario: user_id,
@@ -212,7 +212,8 @@ const NewBlog = ({
           publicado: false,
           etiquetas: tags,
         }, {
-          headers: { 'Authorization': `Bearer ${token}` } // Se envía el token en los headers
+          withCredentials: true, // Aquí se envía la cookie
+          headers: { 'Authorization': `Bearer ${token}` } // Puedes eliminar esta línea si el backend no lo requiere
         });
       } else { // Si se está editando, se actualiza la entrada existente
         const response = await axios.put(`http://localhost:8000/publicaciones/${combinedIdEditar}/`, {
@@ -222,6 +223,7 @@ const NewBlog = ({
           publicado: combinedPublicadoEditar,
           etiquetas: tags,
         }, {
+          withCredentials: true, // Se incluye también en la petición PUT
           headers: { 'Authorization': `Bearer ${token}` }
         });
       }
@@ -239,7 +241,7 @@ const NewBlog = ({
       const user_id = getUserId(); // Obtiene el ID del usuario
       const base64Image = imagePreview ? await getImageBase64() : null; // Obtiene la imagen en base64 si existe
       const sanitizedContent = DOMPurify.sanitize(content); // Limpia el contenido HTML
-       
+  
       if (!combinedEditarBlog) { // Si se está creando una nueva entrada
         const response = await axios.post('http://localhost:8000/publicaciones/', {
           id_usuario: user_id,
@@ -250,6 +252,7 @@ const NewBlog = ({
           publicado: true, // En este caso, la entrada se crea como publicada
           etiquetas: tags,
         }, {
+          withCredentials: true,
           headers: { 'Authorization': `Bearer ${token}` }
         });
       } else { // Si se está editando, se invierte el estado de publicación
@@ -261,6 +264,7 @@ const NewBlog = ({
           publicado: nuevoEstado,
           etiquetas: tags,
         }, {
+          withCredentials: true,
           headers: { 'Authorization': `Bearer ${token}` }
         });
       }
